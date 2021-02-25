@@ -18,10 +18,18 @@ import java.util.stream.Stream;
  */
 public class CovidAnalyzerTool {
 
-    private ResultAnalyzer resultAnalyzer;
-    private TestReader testReader;
+
+    public static ResultAnalyzer resultAnalyzer;
+    public static TestReader testReader;
     private int amountOfFilesTotal;
-    private AtomicInteger amountOfFilesProcessed;
+    public static  AtomicInteger amountOfFilesProcessed;
+    private int cantidadThreads = 5;
+    public static boolean pausar = false;
+    private static ArrayList<CovidAnalizerThread> threads;
+    
+    public static Object monitor= new Object();
+    
+    
 
     public CovidAnalyzerTool() {
         resultAnalyzer = new ResultAnalyzer();
@@ -33,6 +41,27 @@ public class CovidAnalyzerTool {
         amountOfFilesProcessed.set(0);
         List<File> resultFiles = getResultFileList();
         amountOfFilesTotal = resultFiles.size();
+        
+        int start = 0;
+        int stop = cantidadThreads;
+        int cant = amountOfFilesTotal/cantidadThreads;
+        
+        threads = new ArrayList<CovidAnalizerThread>();
+        
+        for(int i = 0; i < cantidadThreads; i++) {
+        	if(i+1 == cantidadThreads && stop < amountOfFilesTotal) {
+        		stop=amountOfFilesTotal;
+        	}
+        	
+        	System.out.println(start+ "de" +stop);
+        	CovidAnalizerThread thread = new CovidAnalizerThread(resultFiles.subList(start,stop));
+            start=stop;
+            stop= stop + cant;
+            thread.start();
+            threads.add(thread);
+        	
+        }
+        
         for (File resultFile : resultFiles) {
             List<Result> results = testReader.readResultsFromFile(resultFile);
             for (Result result : results) {
@@ -61,20 +90,45 @@ public class CovidAnalyzerTool {
      * A main() so we can easily run these routing rules in our IDE
      */
     public static void main(String... args) throws Exception {
+    	
         CovidAnalyzerTool covidAnalyzerTool = new CovidAnalyzerTool();
-        Thread processingThread = new Thread(() -> covidAnalyzerTool.processResultData());
-        processingThread.start();
+        covidAnalyzerTool.processResultData();
+        
+        //Thread processingThread = new Thread(() -> covidAnalyzerTool.processResultData());
+        //processingThread.start();
+        
         while (true) {
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
-            if (line.contains("exit"))
-                break;
-            String message = "Processed %d out of %d files.\nFound %d positive people:\n%s";
-            Set<Result> positivePeople = covidAnalyzerTool.getPositivePeople();
-            String affectedPeople = positivePeople.stream().map(Result::toString).reduce("", (s1, s2) -> s1 + "\n" + s2);
-            message = String.format(message, covidAnalyzerTool.amountOfFilesProcessed.get(), covidAnalyzerTool.amountOfFilesTotal, positivePeople.size(), affectedPeople);
-            System.out.println(message);
+            if (line.contains("exit")) {
+            	System.exit(0);
+            	
+            	if(pausar=false) {
+            		pausar=true;
+            	}if(pausar=true) {
+            		pausar=false;
+            	}
+            	
+            	for(CovidAnalizerThread h : threads) {
+            		
+            		h.continuar();
+            		
+            	}
+            	
+                String message = "Processed %d out of %d files.\nFound %d positive people:\n%s";
+                Set<Result> positivePeople = covidAnalyzerTool.getPositivePeople();
+                String affectedPeople = positivePeople.stream().map(Result::toString).reduce("", (s1, s2) -> s1 + "\n" + s2);
+                message = String.format(message, covidAnalyzerTool.amountOfFilesProcessed.get(), covidAnalyzerTool.amountOfFilesTotal, positivePeople.size(), affectedPeople);
+                System.out.println(message);
+            	
+            }
+               
         }
+    }
+    
+    
+    private static boolean pause(){
+        return pausar;
     }
 
 }

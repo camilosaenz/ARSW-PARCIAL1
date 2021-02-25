@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import eci.arsw.covidanalyzer.model.Result;
 import eci.arsw.covidanalyzer.model.ResultType;
@@ -25,21 +26,25 @@ public class CovidAggregatePersistence implements ICovidAggregateService{
 		result.setLastName("Saenz");
 		result.setId("01");
 		result.setTipo(ResultType.TRUE_NEGATIVE);
+		result.setCantidad(1);
 		
 		result1.setName("Leidy");
 		result1.setLastName("Saenz");
 		result1.setId("02");
 		result1.setTipo(ResultType.TRUE_POSITIVE);
+		result1.setCantidad(1);
 		
 		result2.setName("Stella");
 		result2.setLastName("Rodriguez");
 		result2.setId("03");
 		result2.setTipo(ResultType.FALSE_POSITIVE);
+		result2.setCantidad(1);
 		
 		result3.setName("Rubian");
 		result3.setLastName("Reyes");
 		result3.setId("04");
 		result3.setTipo(ResultType.FALSE_NEGATIVE);
+		result3.setCantidad(1);
 		
 		
 		listaResult.add(result);
@@ -101,27 +106,17 @@ public class CovidAggregatePersistence implements ICovidAggregateService{
 	}
 
 
-	/**
+
+
 	@Override
-	public void setResult(Result result, String name, String id, ResultType tipo) {
-		int i = 0;
+	public void setId(Result result, String id) {
+		int contador = 0;
 		for(Result r : listaResult) {
-			if(id == r.getId() ) {
-				
-				i += 1;
-				
-				//r.setCantidad(i);
-				result.setCantidad(i);
-				
+			if(id == r.getId()) {
+				contador += 1;
+				result.setCantidad(contador);
 			}
-			
 		}
 		
-	}*/
-
-
-
-	
-	
-	
+	}	
 }

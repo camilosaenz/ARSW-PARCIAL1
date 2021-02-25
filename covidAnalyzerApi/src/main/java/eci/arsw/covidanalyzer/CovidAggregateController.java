@@ -151,10 +151,16 @@ public class CovidAggregateController {
     //TODO: Implemente el método.
 
     @RequestMapping(value = "/covid/result/persona/{id}", method = RequestMethod.PUT)
-    public ResponseEntity savePersonaWithMultipleTests() {
+    public ResponseEntity<?> savePersonaWithMultipleTests(@RequestBody Result result, String id) {
         //TODO
-        covidAggregateService.getResult(ResultType.TRUE_POSITIVE);
-        return null;
+    	try {
+    		covidAggregateService.setId(result, id);
+    		return new ResponseEntity(HttpStatus.CREATED);
+    		
+    	}catch(Exception ex) {
+    		Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    	}
     }
     
 }

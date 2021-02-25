@@ -6,6 +6,7 @@ public class Result {
 	public String lastName;
 	public String id;
 	public ResultType tipo;
+	public int cantidad;
 
 	public Result() {
 		// TODO Auto-generated constructor stub
@@ -42,5 +43,15 @@ public class Result {
 	public void setTipo(ResultType tipo) {
 		this.tipo = tipo;
 	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+	
+	
 		
 }

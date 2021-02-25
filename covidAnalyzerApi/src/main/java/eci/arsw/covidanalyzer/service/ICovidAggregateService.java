@@ -6,6 +6,8 @@ import eci.arsw.covidanalyzer.model.ResultType;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.util.MultiValueMap;
+
 public interface ICovidAggregateService {
 
     /**
@@ -33,6 +35,8 @@ public interface ICovidAggregateService {
     void upsertPersonWithMultipleTests(UUID id, ResultType type);
 
 	List<Result> getResult();
+
+	void setId(Result result, String id);
 
 
 
