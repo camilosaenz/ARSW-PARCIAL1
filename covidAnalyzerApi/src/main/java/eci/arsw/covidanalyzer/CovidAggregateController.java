@@ -26,6 +26,8 @@ public class CovidAggregateController {
     
 
     //TODO: Implemente todos los metodos POST que hacen falta.
+	
+	// METODO GET : /result - Este metodo muestra todos los resultados.
 
     @RequestMapping(value = "/covid/result/true-positive", method = RequestMethod.POST)
     public ResponseEntity<?> addTruePositiveResult(@RequestBody Result result) {
@@ -39,10 +41,63 @@ public class CovidAggregateController {
     	}
        
     }
+    
+  //METODOS POST
+    
+    @RequestMapping(value = "/covid/result/true-negative", method = RequestMethod.POST)
+    public ResponseEntity<?> addTrueNegativeResult(@RequestBody Result result) {
+        //TODO
+    	try {
+    		covidAggregateService.aggregateResult(result, ResultType.TRUE_NEGATIVE);
+    		return new ResponseEntity<>(HttpStatus.CREATED);
+    	}catch(Exception ex) {
+    		 Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+ 	        return new ResponseEntity<>("Error al ingresar a la pagina:",HttpStatus.FORBIDDEN);      
+    	}
+       
+    }
+    
+    @RequestMapping(value = "/covid/result/false-positive", method = RequestMethod.POST)
+    public ResponseEntity<?> addFalsePositiveResult(@RequestBody Result result) {
+        //TODO
+    	try {
+    		covidAggregateService.aggregateResult(result, ResultType.FALSE_POSITIVE);
+    		return new ResponseEntity<>(HttpStatus.CREATED);
+    	}catch(Exception ex) {
+    		 Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+ 	        return new ResponseEntity<>("Error al ingresar a la pagina:",HttpStatus.FORBIDDEN);      
+    	}
+       
+    }
+    
+    @RequestMapping(value = "/covid/result/false-negative", method = RequestMethod.POST)
+    public ResponseEntity<?> addFalseNegativeResult(@RequestBody Result result) {
+        //TODO
+    	try {
+    		covidAggregateService.aggregateResult(result, ResultType.FALSE_NEGATIVE);
+    		return new ResponseEntity<>(HttpStatus.CREATED);
+    	}catch(Exception ex) {
+    		 Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+ 	        return new ResponseEntity<>("Error al ingresar a la pagina:",HttpStatus.FORBIDDEN);      
+    	}
+       
+    }
 
     //TODO: Implemente todos los metodos GET que hacen falta.
     
     //METODOS GET:
+    
+    @RequestMapping(value = "/covid/result", method = RequestMethod.GET)
+    public ResponseEntity<?> getResults() {
+        //TODO
+    	try {
+    		
+    		return new ResponseEntity<>(covidAggregateService.getResult(), HttpStatus.ACCEPTED);
+    	}catch(Exception ex) {
+    		Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+	        return new ResponseEntity<>("Error al ingresar a la pagina: ",HttpStatus.NOT_FOUND);
+    	}
+    }
 
     @RequestMapping(value = "/covid/result/true-positive", method = RequestMethod.GET)
     public ResponseEntity<?> getTruePositiveResult() {

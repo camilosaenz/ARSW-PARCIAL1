@@ -17,13 +17,35 @@ public class CovidAggregatePersistence implements ICovidAggregateService{
 	
 	public CovidAggregatePersistence() {
 		Result result = new Result();
-		//Result result1 = new Result("leidy", "02", ResultType.TRUE_NEGATIVE);
-		//Result result2 = new Result("stella", "03", ResultType.FALSE_POSITIVE);
-		//Result result3 = new Result("rubian", "04", ResultType.FALSE_NEGATIVE);
+		Result result1 = new Result();
+		Result result2 = new Result();
+		Result result3 = new Result();
+		
+		result.setName("Nicolas");
+		result.setLastName("Saenz");
+		result.setId("01");
+		result.setTipo(ResultType.TRUE_NEGATIVE);
+		
+		result1.setName("Leidy");
+		result1.setLastName("Saenz");
+		result1.setId("02");
+		result1.setTipo(ResultType.TRUE_POSITIVE);
+		
+		result2.setName("Stella");
+		result2.setLastName("Rodriguez");
+		result2.setId("03");
+		result2.setTipo(ResultType.FALSE_POSITIVE);
+		
+		result3.setName("Rubian");
+		result3.setLastName("Reyes");
+		result3.setId("04");
+		result3.setTipo(ResultType.FALSE_NEGATIVE);
+		
+		
 		listaResult.add(result);
-		//listaResult.add(result1);
-		//listaResult.add(result2);
-		//listaResult.add(result3);
+		listaResult.add(result1);
+		listaResult.add(result2);
+		listaResult.add(result3);
 	}
 	
 	
@@ -67,6 +89,15 @@ public class CovidAggregatePersistence implements ICovidAggregateService{
 	public void upsertPersonWithMultipleTests(UUID id, ResultType type) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+
+	@Override
+	public List<Result> getResult() {
+		
+		return listaResult;
 	}
 
 
