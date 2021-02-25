@@ -18,6 +18,7 @@ public class TestReporter {
     public static final int FALSE_NEGATIVE = 3;
 
     private static final String SERVER_URL = "http://localhost:8080/covid/result";
+    
 
     private static ObjectMapper mapper = new ObjectMapper();
 
