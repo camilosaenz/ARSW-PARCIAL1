@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,13 +28,21 @@ public class CovidAggregateController {
     //TODO: Implemente todos los metodos POST que hacen falta.
 
     @RequestMapping(value = "/covid/result/true-positive", method = RequestMethod.POST)
-    public ResponseEntity<?> addTruePositiveResult(Result result) {
+    public ResponseEntity<?> addTruePositiveResult(@RequestBody Result result) {
         //TODO
-        covidAggregateService.aggregateResult(result, ResultType.TRUE_POSITIVE);
-        return null;
+    	try {
+    		covidAggregateService.aggregateResult(result, ResultType.TRUE_POSITIVE);
+    		return new ResponseEntity<>(HttpStatus.CREATED);
+    	}catch(Exception ex) {
+    		 Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+ 	        return new ResponseEntity<>("Error al ingresar a la pagina:",HttpStatus.FORBIDDEN);      
+    	}
+       
     }
 
     //TODO: Implemente todos los metodos GET que hacen falta.
+    
+    //METODOS GET:
 
     @RequestMapping(value = "/covid/result/true-positive", method = RequestMethod.GET)
     public ResponseEntity<?> getTruePositiveResult() {
@@ -41,6 +50,42 @@ public class CovidAggregateController {
     	try {
     		
     		return new ResponseEntity<>(covidAggregateService.getResult(ResultType.TRUE_POSITIVE), HttpStatus.ACCEPTED);
+    	}catch(Exception ex) {
+    		Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+	        return new ResponseEntity<>("Error al ingresar a la pagina: ",HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    @RequestMapping(value = "/covid/result/true-negative", method = RequestMethod.GET)
+    public ResponseEntity<?> getTrueNegativeResult() {
+        //TODO
+    	try {
+    		
+    		return new ResponseEntity<>(covidAggregateService.getResult(ResultType.TRUE_NEGATIVE), HttpStatus.ACCEPTED);
+    	}catch(Exception ex) {
+    		Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+	        return new ResponseEntity<>("Error al ingresar a la pagina: ",HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    @RequestMapping(value = "/covid/result/false-positive", method = RequestMethod.GET)
+    public ResponseEntity<?> getFalsePositiveResult() {
+        //TODO
+    	try {
+    		
+    		return new ResponseEntity<>(covidAggregateService.getResult(ResultType.FALSE_POSITIVE), HttpStatus.ACCEPTED);
+    	}catch(Exception ex) {
+    		Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
+	        return new ResponseEntity<>("Error al ingresar a la pagina: ",HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    @RequestMapping(value = "/covid/result/false-negative", method = RequestMethod.GET)
+    public ResponseEntity<?> getFalseNegativeResult() {
+        //TODO
+    	try {
+    		
+    		return new ResponseEntity<>(covidAggregateService.getResult(ResultType.FALSE_NEGATIVE), HttpStatus.ACCEPTED);
     	}catch(Exception ex) {
     		Logger.getLogger(CovidAggregateController.class.getName()).log(Level.SEVERE, null, ex);
 	        return new ResponseEntity<>("Error al ingresar a la pagina: ",HttpStatus.NOT_FOUND);

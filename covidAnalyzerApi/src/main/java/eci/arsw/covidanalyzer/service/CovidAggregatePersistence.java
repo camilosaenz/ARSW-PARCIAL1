@@ -1,5 +1,6 @@
 package eci.arsw.covidanalyzer.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,17 +13,17 @@ import eci.arsw.covidanalyzer.model.ResultType;
 @Service
 public class CovidAggregatePersistence implements ICovidAggregateService{
 	
-	private final List<Result> listaResult = new CopyOnWriteArrayList<>();
+	List<Result> listaResult = new ArrayList<Result>();
 	
 	public CovidAggregatePersistence() {
-		Result result = new Result("juan", "01", ResultType.TRUE_POSITIVE);
-		Result result1 = new Result("carlos", "02", ResultType.TRUE_NEGATIVE);
-		Result result2 = new Result("jairo", "03", ResultType.FALSE_POSITIVE);
-		Result result3 = new Result("jonathan", "04", ResultType.FALSE_NEGATIVE);
+		Result result = new Result();
+		//Result result1 = new Result("leidy", "02", ResultType.TRUE_NEGATIVE);
+		//Result result2 = new Result("stella", "03", ResultType.FALSE_POSITIVE);
+		//Result result3 = new Result("rubian", "04", ResultType.FALSE_NEGATIVE);
 		listaResult.add(result);
-		listaResult.add(result1);
-		listaResult.add(result2);
-		listaResult.add(result3);
+		//listaResult.add(result1);
+		//listaResult.add(result2);
+		//listaResult.add(result3);
 	}
 	
 	
@@ -49,14 +50,13 @@ public class CovidAggregatePersistence implements ICovidAggregateService{
 	@Override
 	public List<Result> getResult(ResultType type) {
 		
-		List<Result> lista = new CopyOnWriteArrayList<>();
+		List<Result> lista = new ArrayList<Result>();
 		
 		for(Result r : listaResult) {
 			if(r.getTipo().equals(type)) {
 				lista.add(r);
 			}
 
-			
 		}
 		
 		return lista;

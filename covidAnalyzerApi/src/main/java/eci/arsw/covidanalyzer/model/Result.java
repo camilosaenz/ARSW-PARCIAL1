@@ -3,15 +3,13 @@ package eci.arsw.covidanalyzer.model;
 public class Result {
 	
 	public String name;
+	public String lastName;
 	public String id;
 	public ResultType tipo;
-	
-	public Result(String name, String id, ResultType tipo) {
-		this.name = name;
-		this.id = id;
-		this.tipo = tipo;
-	}
 
+	public Result() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getName() {
 		return name;
